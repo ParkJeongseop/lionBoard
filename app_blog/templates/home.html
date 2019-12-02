@@ -1,0 +1,38 @@
+{% extends 'base.html'%}
+{% load staticfiles %}
+{% block extra_headers %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
+{% block content %}
+<!-- <h1>Make your Blog!</h1> -->
+
+
+{% for post in page_posts %}
+    <div class= "card">
+        <div class="card-body">
+            <a href ="{% url 'detail' post.id%}"><h2 class="card-title">{{post.title}}</h2></a>
+            <div class="card-text test">
+                <p>{{post.date}}</p>
+                <p>{{post.summary}}</p>
+            </div>
+        </div>
+    </div>
+
+{% endfor %}
+<div class="page">
+    {% if page_posts.has_previous %}
+    <a href="?page=1">처음 페이지</a>
+    <a href="?page={{page_posts.previous_page_number}}">이전 페이지</a>
+    {% endif %}
+
+    <span>{{page_posts.number}}</span>
+    <span>of</span>
+    <span>{{page_posts.paginator.num_pages}}</span>
+
+    {%if page_posts.has_next%}
+    <a href="?page={{page_posts.next_page_number}}">다음 페이지</a>
+    <a href="?page={{page_posts.paginator.num_pages}}">마지막 페이지</a>
+    {%endif%}
+</div>
+
+{%endblock%}
